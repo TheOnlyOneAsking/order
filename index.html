@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Printing Order</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #080808;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            overflow-x: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Intro Section */
+        .intro {
+            text-align: center;
+            color: #00509d;
+            font-size: 26px;
+            margin-bottom: 40px;
+            font-weight: 700;
+            max-width: 700px;
+            opacity: 1;
+            transform: translateY(30px);
+            animation: fadeIn 1.5s ease-out forwards;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Scroll Down Button */
+        .scroll-btn {
+            display: none;
+            margin-top: 30px;
+            background-color: #00509d;
+            color: white;
+            font-size: 18px;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: fadeInUp 1.5s ease-out forwards;
+            animation-delay: 5s;
+        }
+
+        .scroll-btn:hover {
+            background-color: #08d;
+        }
+
+        /* Form Container */
+        .container {
+            background: #080808;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease-out forwards;
+            animation-delay: 1s;
+            display: none;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 36px;
+            color: #00509d;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .section-header {
+            font-size: 18px;
+            color: #ccc;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        /* Form Elements */
+        label {
+            font-size: 16px;
+            color: #aaa;
+            margin-bottom: 8px;
+        }
+
+        input, select, textarea, button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid #444;
+            background-color: #333;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-sizing: border-box; /* Ensures input takes up the full width */
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #00509d;
+            box-shadow: 0 0 8px rgba(10, 170, 255, 0.6);
+        }
+
+        select {
+            background-color: #444;
+        }
+
+        textarea {
+            resize: none; /* Disable resizing */
+        }
+
+        button {
+            background-color: #00509d;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+            padding: 16px;
+            margin-top: 20px;
+            border-radius: 10px;
+            display: block;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        button:hover {
+            background-color: #08d;
+        }
+
+        button:active {
+            background-color: #06c;
+        }
+
+        /* Confirmation Message */
+        .confirmation-message {
+            text-align: center;
+            font-size: 18px;
+            color: #00509d;
+            margin-top: 20px;
+            display: none;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #bbb;
+            margin-top: 40px;
+        }
+
+        .footer a {
+            color: #00509d;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+                width: 90%;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            button {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="intro" id="intro">
+        <p>Welcome to our Remington 3D Printing! We offer high-quality prints tailored to your needs. Customize your order below and we'll bring your ideas to life! Whether it be a fidget or a decoration for your room.</p>
+    </div>
+
+    <div class="scroll-btn" id="scrollButton" onclick="scrollToForm()">Order</div>
+
+    <div class="container" id="formSection">
+        <h2>Order Your 3D Print</h2>
+
+        <form id="orderForm">
+            <div>
+                <label for="name" class="section-header">Your Name</label>
+                <input type="text" id="name" placeholder="Enter your full name" required>
+            </div>
+
+            <div>
+                <label for="color" class="section-header">Select Color</label>
+                <select id="color" required>
+                    <option value="">Select a color...</option>
+                    <option value="Red">Red</option>
+                    <option value="Black">Black</option>
+                    <option value="Yellow">Yellow</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="details" class="section-header">Additional Details</label>
+                <textarea id="details" placeholder="Any special instructions or customizations?" rows="4"></textarea>
+            </div>
+
+            <button type="submit">Place Order</button>
+        </form>
+
+        <p class="confirmation-message" id="confirmation">Thank you for your order! We will contact you soon for further details.</p>
+    </div>
+
+    <div class="footer">
+        <p>Need help? <a href="mailto:9004427@franklinps.net">Contact us</a></p>
+    </div>
+
+    <script>
+        // Wait 5 seconds to display scroll button and fade out intro
+        setTimeout(function() {
+            document.getElementById("scrollButton").style.display = "block";
+        }, 0);
+
+        // Fade out intro and show form section
+        function scrollToForm() {
+            document.getElementById("scrollButton").style.animation = "fadeOut 1s ease-out forwards";
+            setTimeout(function() {
+                document.getElementById("scrollButton").style.display = "none"; // Hide scroll button after it fades out
+            }, 1000);
+
+            // Fade out the intro and scroll to form section
+            document.getElementById("intro").style.transition = "opacity 1s";
+            document.getElementById("intro").style.opacity = "0";
+            document.getElementById("formSection").style.transition = "opacity 1s";
+            document.getElementById("formSection").style.opacity = "1";
+
+            setTimeout(function() {
+                document.getElementById("intro").style.display = "none";
+                document.getElementById("formSection").style.display = "block"; // Show the form section
+            }, 1000);  // Wait until fade-out is complete
+
+            document.getElementById("formSection").scrollIntoView({ behavior: "smooth" });
+        }
+
+        document.getElementById("orderForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Get form values
+            let name = document.getElementById("name").value;
+            let color = document.getElementById("color").value;
+            let details = document.getElementById("details").value;
+
+            // Google Forms Entry IDs (Replace these with your actual Google Form's entry IDs)
+            let googleFormURL = "https://docs.google.com/forms/u/0/d/e/1FAIpQLScjYpC4VfULQEqa75m7Q13wPZwATDOR69isvjiboLawn5rV3g/formResponse";
+            let formData = new FormData();
+            formData.append("entry.590194609", name);  // Replace with actual entry ID for Name
+            formData.append("entry.1040550691", color);  // Replace with actual entry ID for Color
+            formData.append("entry.1829192977", details);  // Replace with actual entry ID for Details
+
+            // Send data to Google Forms
+            fetch(googleFormURL, {
+                method: "POST",
+                body: formData,
+                mode: "no-cors"
+            }).then(() => {
+                document.getElementById("confirmation").style.display = "block";
+                document.getElementById("orderForm").reset();
+            }).catch(error => console.error("Error:", error));
+        });
+    </script>
+</body>
+</html>
